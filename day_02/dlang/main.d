@@ -52,6 +52,29 @@ bool playGame(int[string][] game, int red, int green, int blue) {
     return true;
 }
 
+int minGame(int[string][] game) {
+    int minRed = 1;
+    int minBlue = 1;
+    int minGreen = 1;
+
+    foreach (int[string] pair; game) {
+        int pred = pair.get("red", 0);
+        int pblue = pair.get("blue", 0);
+        int pgreen = pair.get("green", 0);
+        if (pred > minRed) {
+            minRed = pred;
+        }
+        if (pblue > minBlue) {
+            minBlue = pblue;
+        }
+        if (pgreen > minGreen) {
+            minGreen = pgreen;
+        }
+    }
+
+    return minRed * minBlue * minGreen;
+}
+
 void part1() {
     // string[] lines = readLines("../example1.txt");
     string[] lines = readLines("../input.txt");
@@ -67,9 +90,23 @@ void part1() {
         game_num++;
     }
 
-    writefln("%s", total);
+    writefln("Part 1: %s", total);
+}
+
+void part2() {
+    // string[] lines = readLines("../example1.txt");
+    string[] lines = readLines("../input.txt");
+    int[string][][] games = parseGames(lines);
+    int total = 0;
+
+    foreach (int[string][] game; games) {
+        total += minGame(game);
+    }
+
+    writefln("Part 2: %s", total);
 }
 
 void main() {
     part1();
+    part2();
 }
